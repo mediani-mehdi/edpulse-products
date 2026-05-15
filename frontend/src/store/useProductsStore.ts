@@ -20,15 +20,16 @@ interface ProductsState {
   setCategory: (category?: string) => void;
   setStock: (stock?: StockStatus) => void;
   setPage: (page: number) => void;
+  setLimit: (limit: number) => void;
   fetch: () => Promise<void>;
 }
 
 export const useProductsStore = create<ProductsState>((set, get) => ({
   products: [],
-  meta: { page: 1, limit: 10, total: 0, totalPages: 1 },
+  meta: { page: 1, limit: 12, total: 0, totalPages: 1 },
   filters: {},
   page: 1,
-  limit: 10,
+  limit: 12,
   loading: false,
   error: null,
 
@@ -44,6 +45,11 @@ export const useProductsStore = create<ProductsState>((set, get) => ({
 
   setPage: (page) => {
     set({ page });
+    void get().fetch();
+  },
+
+  setLimit: (limit) => {
+    set({ limit, page: 1 });
     void get().fetch();
   },
 
